@@ -20,7 +20,7 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('app', './frontend/js/app.js')
+    .addEntry('app', './frontend/assets/js/app.js')
     // Enable Vue.js support
     .enableVueLoader()
     .enablePostCssLoader()
