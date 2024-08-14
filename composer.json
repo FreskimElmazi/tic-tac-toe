@@ -19,6 +19,8 @@
         "symfony/framework-bundle": "6.0.*",
         "symfony/proxy-manager-bridge": "6.0.*",
         "symfony/runtime": "6.0.*",
+        "symfony/twig-bundle": "6.0.*",
+        "symfony/webpack-encore-bundle": "^1.17",
         "symfony/yaml": "6.0.*"
     },
     "config": {
@@ -31,7 +33,9 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+        }
     },
     "autoload": {
         "psr-4": {

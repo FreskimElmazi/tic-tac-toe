@@ -56,6 +56,19 @@ services:
       - target: 443
         published: ${HTTP3_PORT:-443}
         protocol: udp
+
+  node:
+    build:
+      context: .
+      target: node_builder
+    volumes:
+      - .:/app
+    ports:
+      - "8080:8080" # Map the frontend dev server port to the host
+    depends_on:
+      - php
+    command: ["npm", "run", "dev", "--", "--watch"]
+
   db:
     image: mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
@@ -65,8 +78,8 @@ services:
     volumes:
       - db-data:/var/lib/mysql:rw
     ports:
-      - "13306:3306" 
-
+      - "13306:3306"
+      
 # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
@@ -75,6 +88,6 @@ volumes:
   php_socket:
   caddy_data:
   caddy_config:
-  db-data: 
+  db-data:
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###

@@ -4,11 +4,11 @@
 
 
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
-ARG PHP_VERSION=8.0
+ARG PHP_VERSION=8.3
 ARG CADDY_VERSION=2
 
 # "php" stage
-FROM php:${PHP_VERSION}-fpm-alpine3.13 AS symfony_php
+FROM php:${PHP_VERSION}-fpm-alpine AS symfony_php
 
 # persistent / runtime deps
 RUN apk add --no-cache \
@@ -144,3 +144,23 @@ RUN set -eux; \
 	pecl install xdebug-$XDEBUG_VERSION; \
 	docker-php-ext-enable xdebug; \
 	apk del .build-deps
+
+# Node.js stage for frontend development
+FROM node:14-alpine AS node_builder
+
+WORKDIR /app
+
+# Copy the package.json and package-lock.json files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of your frontend files (e.g., src, public, etc.)
+COPY . .
+
+# Expose the development server port
+EXPOSE 8080
+
+# Default command to run the development server with file watching
+CMD ["npm", "run", "dev", "--", "--watch"]
